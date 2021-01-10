@@ -5,7 +5,7 @@ require('dotenv').config()
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-mongoose.coonnect('mongodb+srv://aestebance:73994757@cluster0.suqbq.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://aestebance:73994757@cluster0.suqbq.mongodb.net/test?retryWrites=true&w=majority',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
