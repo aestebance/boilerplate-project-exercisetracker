@@ -44,3 +44,15 @@ let userSchema = mongoose.Schema({
 
 let ExerciseSession = mongoose.model('Session', exerciseSessionSchema);
 let User = mongoose.model('User', userSchema);
+
+app.post('/api/exercise/new-user', bodyParser.urlencoded({ extended: false}), (req, res) => {
+  let newUser = new User({username: req.body.username});
+  newUser.save((err, data) => {
+    if (!err) {
+      res.json({
+        username: data.username,
+        _id: data._id
+      });
+    }
+  })
+});
