@@ -90,11 +90,38 @@ app.post('/api/exercise/add', bodyParser.urlencoded({ extended: false}), (req, r
 
 app.get('/api/exercise/log', (req, res) => {
   User.findById(req.query.userId, (err, data) => {
-    res.json({
-      _id: data._id,
-      username: data.username,
-      count: data.log.length,
-      log: data.log
-    });
+    if(!err) {
+
+      if (req.query.from || req.query.to) {
+        let from = new Date(0);
+        let to  = new Date();
+
+        if (req.query.from) {
+          from = new Date(req.query.from);
+        }
+        if (req.query.to) {
+          to = new Date(req.query.to);
+        }
+
+        from = from.getTime();
+        to = to.getTime();
+
+        data.log = data.log.filter((ses) => {
+          let sesDate = new Date(ses.date).getTime();
+          return sesDate >= from && sesDate <= to ? ses : null;
+        });
+      }
+
+      if (req.query.limit) {
+        data.log = data.log.slice(0, req.query.limit);
+      }
+
+      res.json({
+        _id: data._id,
+        username: data.username,
+        count: data.log.length,
+        log: data.log
+      });
+    }
   });
 });
