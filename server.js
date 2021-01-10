@@ -74,7 +74,7 @@ app.post('/api/exercise/add', bodyParser.urlencoded({ extended: false}), (req, r
   if (newExercise.date === '') {
     newExercise.date = new Date().toISOString().substring(0, 10);
   }
-  user.findByIdAndUpdate(
+  User.findByIdAndUpdate(
       req.body.userId, {$push: {log: newExercise}},
       {new: true},
       (err, data) => {
