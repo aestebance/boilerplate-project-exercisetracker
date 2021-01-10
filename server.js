@@ -90,8 +90,11 @@ app.post('/api/exercise/add', bodyParser.urlencoded({ extended: false}), (req, r
 
 app.get('/api/exercise/log', (req, res) => {
   User.findById(req.query.userId, (err, data) => {
-    let response = data;
-    response['count'] = data.log.length;
-    res.json(response);
+    res.json({
+      _id: data._id,
+      username: data.username,
+      count: data.log.length,
+      log: data.log
+    });
   });
 });
