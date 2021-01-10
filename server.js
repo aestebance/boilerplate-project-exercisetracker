@@ -87,3 +87,11 @@ app.post('/api/exercise/add', bodyParser.urlencoded({ extended: false}), (req, r
         })
       });
 });
+
+app.get('/api/exercise/log', (req, res) => {
+  User.findById(req.query.userId, (err, data) => {
+    let response = data;
+    response['count'] = data.log.length;
+    res.json(response);
+  });
+});
