@@ -64,3 +64,26 @@ app.get('/api/exercise/users', (req, res) => {
     }
   })
 });
+
+app.post('/api/exercise/add', bodyParser.urlencoded({ extended: false}), (req, res) => {
+  let newExercise = new ExerciseSession({
+    description: req.body.description,
+    duration: parseInt(req.body.duration),
+    date: req.body.date
+  });
+  if (newExercise.date === '') {
+    newExercise.date = new Date().toISOString().substring(0, 10);
+  }
+  user.findByIdAndUpdate(
+      req.body.userId, {$push: {log: newExercise}},
+      {new: true},
+      (err, data) => {
+        res.json({
+          _id: data._id,
+          username: data.username,
+          date: new Date(newExercise.date).toDateString(),
+          description: newExercise.description,
+          duration: newExercise.duration
+        })
+      });
+});
