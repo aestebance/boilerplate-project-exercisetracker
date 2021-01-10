@@ -56,3 +56,11 @@ app.post('/api/exercise/new-user', bodyParser.urlencoded({ extended: false}), (r
     }
   })
 });
+
+app.get('/api/exercise/users', (req, res) => {
+  User.find({}, (err, data) => {
+    if (!err) {
+      res.json(data);
+    }
+  })
+});
